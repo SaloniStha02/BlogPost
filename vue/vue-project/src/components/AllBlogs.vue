@@ -3,13 +3,14 @@
       <nav class="bg-emerald-600">
         <div class="flex justify-evenly items-center  px-4 py-4">
           <div class="flex">
-            <!-- <button class="text-white text-xl mx-20" @click="getMyPost"> My Posts</button>
+            <button class="text-white text-xl mx-20" @click="getMyPost"> My Posts</button>
             <button class="text-white text-xl mx-20" @click="getPost" >Explore</button>
-            <button class="text-white text-xl mx-20" @click="createBlog" >Create Blog</button> -->
-            <router-link to="/dashboard" class="text-white text-xl mx-20">My posts</router-link>
+            <button class="text-white text-xl mx-20" @click="createBlog" >Create Blog</button>
+            <button>Logout</button>
+            <!-- <router-link to="/dashboard" class="text-white text-xl mx-20">My posts</router-link>
             <router-link to="/allblogs" class="text-white text-xl mx-20">Explore</router-link>
             <router-link to="/blog-create" class="text-white  text-xl mx-20">Create blog</router-link>
-            <router-link to="/" class="text-white  text-xl mx-20">Logout</router-link>
+            <router-link to="/" class="text-white  text-xl mx-20">Logout</router-link> -->
           </div>
         </div>
       </nav>
