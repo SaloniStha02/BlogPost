@@ -126,6 +126,15 @@ class UserLogin:
         response.set_cookie('access_token',access_token)
         response.set_cookie('refresh_token',refresh_token)
         return response
+    
+    
+    @csrf_exempt
+    def logout(request):
+        response = JsonResponse({'message': 'Logout successful'})
+        response.set_cookie('access_token', '', expires=0)
+        access_token =response.set_cookie('refresh_token', '', expires=0)
+        print(access_token)
+        return response
 
 
 
