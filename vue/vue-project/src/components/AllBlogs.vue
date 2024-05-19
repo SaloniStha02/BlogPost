@@ -6,11 +6,7 @@
             <button class="text-white text-xl mx-20" @click="getMyPost"> My Posts</button>
             <button class="text-white text-xl mx-20" @click="getPost" >Explore</button>
             <button class="text-white text-xl mx-20" @click="createBlog" >Create Blog</button>
-            <button>Logout</button>
-            <!-- <router-link to="/dashboard" class="text-white text-xl mx-20">My posts</router-link>
-            <router-link to="/allblogs" class="text-white text-xl mx-20">Explore</router-link>
-            <router-link to="/blog-create" class="text-white  text-xl mx-20">Create blog</router-link>
-            <router-link to="/" class="text-white  text-xl mx-20">Logout</router-link> -->
+            <button class="text-white text-xl mx-20" @click="logOut">Logout</button>
           </div>
         </div>
       </nav>
@@ -29,7 +25,7 @@
   </template>
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from "vue-toastification";
 
@@ -59,8 +55,26 @@ const createBlog = ()=>{
   router.push({name:'CreateBlog'});
 
 };
+const logOut=()=>{
+  axios("http://127.0.0.1:8000/logout/",{
+      method:"post",
+      withCredentials: true
+    })
+        .then(response => {
+            if (response.status === 200) {
+                router.push({ path: '/' });
+                toast.success("Logout Successful",{position:'bottom-right'});
+            }
+        })
+        .catch(error => {
+            console.error('Logout failed:', error);
+            toast.error("Logout Unsuccessful",{position:"bottom-right"});
+          
+        });
+}
+onMounted(getPost) ;
 // const post = () => {
 //   axios("http://localhost:8000/blogposts/?all=True",{method: "get", withCredentials: true}).then((response) => { console.log(response)})
 // // }
-// onMounted(post) 
+
 </script>
