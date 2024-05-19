@@ -1,62 +1,60 @@
 import{createWebHistory,createRouter} from 'vue-router';
 import Form from './components/Form.vue';
-import ReadUser from './components/ReadUser.vue';
-import EditUser from './components/EditUser.vue';
 import Login from './components/Login.vue';
-import Signup from './components/Signup.vue';
 import Dashboard from './components/Dashboard.vue';
 import AllBlogs from './components/AllBlogs.vue';
 import CreateBlog from './components/CreateBlog.vue';
 import UpdateBlog from './components/UpdateBlog.vue';
 const routes=[
-{
-    name:'ReadUser',
-    path :'/display-user',
-    component:ReadUser
-    
-},
+
 {
     name:'Form',
     path :'/createuser',
-    component: Form
-    
-},
-{
-    name:'EditUser',
-    path :'/edituser/:userId',
-    component: EditUser,
-    props:true
+    component: Form,
+    meta: {
+      requiresAuth: false,
+    },
     
 },
 {
     name:'Login',
     path :'/',
-    component: Login
-},
-{
-    name:'Signup',
-    path :'/signup',
-    component: Signup
+    component: Login,
+    meta: {
+      requiresAuth:false,
+    },
 },
 {
     name:'Dashboard',
     path:'/dashboard',
-    component:Dashboard
+    component:Dashboard,
+    meta: {
+      requiresAuth: true,
+    },
 },
 {
     name:'AllBlogs',
     path:'/allblogs',
-    component:AllBlogs
+    component:AllBlogs,
+    meta: {
+      requiresAuth: true,
+    },
 },
 {
     name:'CreateBlog',
     path:'/blog-create',
-    component:CreateBlog
+    component:CreateBlog,
+    meta: {
+      requiresAuth: true,
+    },
 },
 {
     name:'UpdateBlog',
-    path:'/blog-update',
-    component:UpdateBlog
+    path:'/blog-update/:blogId',
+    component:UpdateBlog,
+    meta: {
+      requiresAuth: true,
+    },
 },
 ];
 
@@ -64,5 +62,30 @@ const router=createRouter({
     history:createWebHistory(),
     routes
 });
+function isAuthenticated() {
+    const token = getJwtToken();
+    return !!token;
+  }
+  
+  function getJwtToken() {
+    const tokenCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('access_token='));
+    if (tokenCookie) {
+      return tokenCookie.split('=')[1]; 
+    }
+    return null;
+  }
+  
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (isAuthenticated()) {
+        next();
+      } else {
+        next('/');
+      }
+    } else {
+      next();
+    }
+  });
+  
 export default router;
 
